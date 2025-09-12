@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CPD Certificate Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Devanagari-capable and elegant serif fonts used in the sample certificate -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      /* Use the loaded fonts for the certificate preview only */
+      #certificate-preview { font-family: 'Noto Serif', 'Times New Roman', serif; }
+      #certificate-preview .devanagari { font-family: 'Noto Sans Devanagari', 'Noto Serif', serif; }
+
+      /* Print styles: show only the certificate and force landscape A4 output
+         We explicitly size the preview container to A4 landscape dimensions in CSS pixels
+         (approx 1122 x 793 at 96dpi) and then scale it down if the browser requires it.
+         This helps keep everything on one page when printing or saving to PDF. */
+      @media print {
+        body { margin: 0; padding: 0; }
+        body * { visibility: hidden !important; }
+        /* Center and size the certificate for printing */
+        #certificate-preview { visibility: visible !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; box-sizing: border-box !important; }
+        #certificate-preview .outer-border, #certificate-preview .inner-border { box-shadow: none !important; }
+
+        /* Target A4 landscape size: 297mm x 210mm. Using 96 DPI -> 1122 x 794 px approximately. */
+        #certificate-preview { width: 1122px !important; height: 794px !important; padding: 0 !important; }
+
+        /* Ensure child elements are visible */
+        #certificate-preview, #certificate-preview * { visibility: visible !important; }
+
+        /* Let the browser know we want A4 landscape when printing */
+        @page { size: A4 landscape; margin: 0; }
+      }
+
+      /* Small visual tweaks for on-screen preview */
+      #certificate-preview .outer-border { border: 6px solid #111827; }
+      #certificate-preview .inner-border { border: 2px solid #374151; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-100">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
