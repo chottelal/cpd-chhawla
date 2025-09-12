@@ -67,8 +67,8 @@ export const CertificateForm: React.FC<CertificateFormProps> = ({ data, setData 
         <InputField label="Duration (Hindi)" id="durationHindi" value={data.durationHindi} onChange={handleChange} />
         <InputField label="Year" id="year" value={data.year} onChange={handleChange} />
         {/* FIX: Added InputField for principalName. */}
-        <InputField label="Principal Name" id="principalName" value={data.principalName} onChange={handleChange} />
-        <InputField label="Principal Signature URL or base64" id="principalSignature" value={data.principalSignature || ''} onChange={handleChange} />
+  <InputField label="Principal Name" id="principalName" value={data.principalName} onChange={handleChange} />
+  <InputField label="Principal Signature URL or base64" id="principalSignature" value={data.principalSignature || ''} onChange={handleChange} />
       </form>
     </div>
   );

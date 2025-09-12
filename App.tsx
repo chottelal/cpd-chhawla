@@ -11,7 +11,6 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'single' | 'bulk'>('single');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState({ current: 0, total: 0 });
-  
   const [certificateData, setCertificateData] = useState<CertificateData>({
     participantName: 'JITESH SHAH',
     participantNameHindi: 'जितेश शाह',
@@ -59,16 +58,14 @@ const App: React.FC = () => {
       setGenerationProgress({ current: 0, total: certificates.length });
       
       const getCertificateElement = () => {
-        // Use the hidden preview element during bulk generation
         return activeTab === 'bulk' 
           ? document.getElementById('bulk-certificate-preview')
           : document.getElementById('certificate-preview');
       };
       const updateCertificateData = async (data: CertificateData) => {
         setCertificateData(data);
-        // Return a promise that resolves after state update
         return new Promise<void>(resolve => {
-          setTimeout(resolve, 50); // Small delay for React to update
+          setTimeout(resolve, 50);
         });
       };
       
