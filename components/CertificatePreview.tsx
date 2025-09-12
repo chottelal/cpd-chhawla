@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { CertificateData } from '../types';
 import { KvLogo } from './Icons';

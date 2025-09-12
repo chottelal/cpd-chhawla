@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { CertificateForm } from './components/CertificateForm';
 import { CertificatePreview } from './components/CertificatePreview';
@@ -7,17 +8,24 @@ import { DownloadIcon, BrandIcon } from './components/Icons';
 const App: React.FC = () => {
   const [certificateData, setCertificateData] = useState<CertificateData>({
     participantName: 'JITESH SHAH',
+    participantNameHindi: 'जितेश शाह',
     designation: 'PGT (COMPUTER SCIENCE)',
+    designationHindi: 'स्नातकोत्तर शिक्षक(कंप्यूटर साइंस)',
     organizationName: 'KENDRIYA VIDYALAYA BSF CAMP CHHAWLA',
-    organizationNameHindi: 'पीएमश्री केंद्रीय विद्यालय सीमा सुरक्षा बल छावला नई दिल्ली-71',
+    organizationNameHindi: 'पीएमश्रीकेंद्रीयविद्यालय सीमा सुरक्षा बल छावलानईदिल्ली-71',
     organizationAddress: 'NEW DELHI-71',
+    organizationLocation: 'BSF CAMP CHHAWLA',
+    organizationLocationHindi: 'सीमा सुरक्षा बल छावलानईदिल्ली',
     regionalOffice: 'DELHI REGION',
+    regionalOfficeHindi: 'दिल्ली संभाग',
     trainingName: 'NCF-SE',
     workshopDetails: 'Paper Publishing / Question Paper Setting / Editing a Publication etc.',
     dates: '12.12.2024 and 13.12.2024',
     duration: '03 hours',
+    durationHindi: 'तीन',
     year: '2024',
-    principalName: 'Principal Name',
+    // FIX: Added principalName to initial state.
+    principalName: 'PRINCIPAL NAME',
   });
 
   const handlePrint = () => {
