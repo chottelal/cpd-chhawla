@@ -1,0 +1,5 @@
+{
+  "name": "CPD Certificate Generator",
+  "description": "An application to generate professional Continuing Professional Development (CPD) certificates for employees based on user input.",
+  "requestFramePermissions": []
+}
