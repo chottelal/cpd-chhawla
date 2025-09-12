@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { CertificateData } from '../types';
 
@@ -50,7 +49,8 @@ export const CertificateForm: React.FC<CertificateFormProps> = ({ data, setData 
       <form className="space-y-4">
         <InputField label="Participant Name" id="participantName" value={data.participantName} onChange={handleChange} />
         <InputField label="Designation" id="designation" value={data.designation} onChange={handleChange} />
-        <InputField label="Organization Name" id="organizationName" value={data.organizationName} onChange={handleChange} />
+        <InputField label="Organization Name (Hindi)" id="organizationNameHindi" value={data.organizationNameHindi} onChange={handleChange} />
+        <InputField label="Organization Name (English)" id="organizationName" value={data.organizationName} onChange={handleChange} />
         <InputField label="Organization Address" id="organizationAddress" value={data.organizationAddress} onChange={handleChange} />
         <InputField label="Regional Office" id="regionalOffice" value={data.regionalOffice} onChange={handleChange} />
         <InputField label="Training Name (e.g., NCF-SE)" id="trainingName" value={data.trainingName} onChange={handleChange} />

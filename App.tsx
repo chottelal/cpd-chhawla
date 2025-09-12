@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { CertificateForm } from './components/CertificateForm';
 import { CertificatePreview } from './components/CertificatePreview';
@@ -10,6 +9,7 @@ const App: React.FC = () => {
     participantName: 'JITESH SHAH',
     designation: 'PGT (COMPUTER SCIENCE)',
     organizationName: 'KENDRIYA VIDYALAYA BSF CAMP CHHAWLA',
+    organizationNameHindi: 'पीएमश्री केंद्रीय विद्यालय सीमा सुरक्षा बल छावला नई दिल्ली-71',
     organizationAddress: 'NEW DELHI-71',
     regionalOffice: 'DELHI REGION',
     trainingName: 'NCF-SE',
