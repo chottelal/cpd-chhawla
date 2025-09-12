@@ -5,7 +5,7 @@ import { KvLogo } from './Icons';
 
 export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }> = ({ data, id = "certificate-preview" }) => {
   return (
-    <div id={id} className="w-full p-6">
+  <div id={id} className="w-full p-6" style={{ width: id !== 'certificate-preview' ? '1122px' : undefined, height: id !== 'certificate-preview' ? '794px' : undefined }}>
       <div className="bg-white outer-border p-6">
         <div className="inner-border h-full p-6 flex flex-col" style={{ minHeight: '640px' }}>
           <header className="flex items-start justify-between mb-2 gap-4">

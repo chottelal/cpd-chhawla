@@ -172,8 +172,8 @@ const App: React.FC = () => {
         ) : (
           <div>
             <BulkUpload onBulkGenerate={handleBulkGenerate} />
-            {/* Hidden certificate preview for bulk generation - needed for PDF generation */}
-            <div className="hidden">
+            {/* Off-screen certificate preview for bulk generation (must NOT be display:none) */}
+            <div style={{ position: 'absolute', left: '-2000px', top: 0, width: '1122px' }}>
               <CertificatePreview data={certificateData} id="bulk-certificate-preview" />
             </div>
           </div>

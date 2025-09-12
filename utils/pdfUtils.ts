@@ -53,13 +53,14 @@ export const generateBulkPDFs = async (
 
       // Update the certificate data and wait for re-render
       await updateCertificateData(cert);
-      
-      // Small delay to ensure React has updated the DOM
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
+      // Wait a bit longer for React & fonts to settle
+      await new Promise(resolve => setTimeout(resolve, 250));
       const element = getCertificateElement();
       if (!element) {
         throw new Error('Certificate preview element not found');
+      }
+      if (element.clientWidth === 0 || element.clientHeight === 0) {
+        console.warn('Bulk PDF generation: element has zero dimensions. width:', element.clientWidth, 'height:', element.clientHeight);
       }
 
       // Generate PDF for this certificate
