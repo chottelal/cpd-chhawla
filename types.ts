@@ -19,4 +19,6 @@ export interface CertificateData {
   year: string;
   // FIX: Added missing principalName property.
   principalName: string;
+  // Optional URL or data URI for principal signature image; Excel value is authoritative.
+  principalSignature?: string;
 }

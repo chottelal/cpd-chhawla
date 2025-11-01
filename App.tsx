@@ -1,16 +1,20 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CertificateForm } from './components/CertificateForm';
 import { CertificatePreview } from './components/CertificatePreview';
 import { BulkUpload } from './components/BulkUpload';
+import { SignatureTab } from './components/SignatureTab';
 import type { CertificateData } from './types';
 import { DownloadIcon, BrandIcon } from './components/Icons';
-import { generateSinglePDF, generateBulkPDFs } from './utils/pdfUtils';
+import { generateSinglePDF, generateBulkBoth } from './utils/pdfUtils';
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'single' | 'bulk'>('single');
+  const [activeTab, setActiveTab] = useState<'single' | 'bulk' | 'signature'>('single');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState({ current: 0, total: 0 });
+  const [uploadedSignature, setUploadedSignature] = useState<string | undefined>(() => {
+    try { return localStorage.getItem('principalSignature') || undefined; } catch { return undefined; }
+  });
   const [certificateData, setCertificateData] = useState<CertificateData>({
     participantName: 'JITESH SHAH',
     participantNameHindi: 'जितेश शाह',
@@ -34,6 +38,14 @@ const App: React.FC = () => {
     principalSignature: '/signature.png',
   });
 
+  useEffect(() => {
+    // Keep localStorage in sync in case state changes elsewhere
+    try {
+      if (uploadedSignature) localStorage.setItem('principalSignature', uploadedSignature);
+      else localStorage.removeItem('principalSignature');
+    } catch {}
+  }, [uploadedSignature]);
+
   const handlePrint = async () => {
     try {
       setIsGenerating(true);
@@ -55,7 +67,8 @@ const App: React.FC = () => {
   const handleBulkGenerate = async (certificates: CertificateData[]) => {
     try {
       setIsGenerating(true);
-      setGenerationProgress({ current: 0, total: certificates.length });
+      // Count per-file progress: 2 files per certificate (PDF + DOCX)
+      setGenerationProgress({ current: 0, total: certificates.length * 2 });
       
       const getCertificateElement = () => {
         return activeTab === 'bulk' 
@@ -69,7 +82,7 @@ const App: React.FC = () => {
         });
       };
       
-      await generateBulkPDFs(
+      await generateBulkBoth(
         certificates,
         getCertificateElement,
         updateCertificateData,
@@ -135,6 +148,16 @@ const App: React.FC = () => {
             >
               📦 Bulk Generation
             </button>
+            <button
+              onClick={() => setActiveTab('signature')}
+              className={`px-6 py-3 font-medium text-sm border-b-2 transition-colors ${
+                activeTab === 'signature'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              ✍️ Principal Signature
+            </button>
           </div>
         </div>
 
@@ -165,18 +188,20 @@ const App: React.FC = () => {
             </div>
             <div className="lg:col-span-2">
               <div className="bg-white p-4 sm:p-6 shadow-lg rounded-lg">
-                <CertificatePreview data={certificateData} id="certificate-preview" />
+                <CertificatePreview data={{...certificateData, principalSignature: certificateData.principalSignature || uploadedSignature}} id="certificate-preview" />
               </div>
             </div>
           </div>
-        ) : (
+        ) : activeTab === 'bulk' ? (
           <div>
-            <BulkUpload onBulkGenerate={handleBulkGenerate} />
+            <BulkUpload onBulkGenerate={handleBulkGenerate} fallbackSignature={uploadedSignature} />
             {/* Off-screen certificate preview for bulk generation (must NOT be display:none) */}
             <div style={{ position: 'absolute', left: '-2000px', top: 0, width: '1122px' }}>
-              <CertificatePreview data={certificateData} id="bulk-certificate-preview" />
+              <CertificatePreview data={{...certificateData, principalSignature: certificateData.principalSignature || uploadedSignature}} id="bulk-certificate-preview" />
             </div>
           </div>
+        ) : (
+          <SignatureTab value={uploadedSignature} onChange={setUploadedSignature} />
         )}
       </main>
       

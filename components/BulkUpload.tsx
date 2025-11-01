@@ -5,9 +5,11 @@ import { CertificatePreview } from './CertificatePreview';
 
 interface BulkUploadProps {
   onBulkGenerate: (certificates: CertificateData[]) => void;
+  // Optional fallback signature image (data URL) used only when a row's Excel URL is empty
+  fallbackSignature?: string;
 }
 
-export const BulkUpload: React.FC<BulkUploadProps> = ({ onBulkGenerate }) => {
+export const BulkUpload: React.FC<BulkUploadProps> = ({ onBulkGenerate, fallbackSignature }) => {
   const [certificates, setCertificates] = useState<CertificateData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -41,7 +43,14 @@ export const BulkUpload: React.FC<BulkUploadProps> = ({ onBulkGenerate }) => {
 
   const handleBulkGenerate = () => {
     if (certificates.length > 0) {
-      onBulkGenerate(certificates);
+      const withFallback = certificates.map((c) => ({
+        ...c,
+        // Use Excel-provided signature if present; otherwise apply uploaded fallback
+        principalSignature: c.principalSignature && c.principalSignature.trim() !== ''
+          ? c.principalSignature
+          : (fallbackSignature || undefined),
+      }));
+      onBulkGenerate(withFallback);
     }
   };
 
