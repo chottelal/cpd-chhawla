@@ -35,7 +35,7 @@ export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }
               <span className="font-bold underline mx-1">{data.designationHindi || data.designation}</span>
               {data.organizationNameHindi} क्षेत्रीय कार्यालय
               <span className="font-bold underline mx-1">{data.regionalOfficeHindi || data.regionalOffice}</span>
-              में मण्डल स्तर पर आयोजित
+              ने विद्यालय स्तर पर आयोजित
               <span className="font-bold underline mx-1">{data.trainingName}</span>
               प्रशिक्षण कार्यक्रम/गतिविधि ({data.workshopDetails}) में दिनांक
               <span className="font-bold underline mx-1">{data.dates}</span>
