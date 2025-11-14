@@ -29,35 +29,11 @@ export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }
 
           <main className="flex-grow text-lg leading-relaxed mt-6 px-6">
             <p className="text-justify devanagari">
-              प्रमाणित किया जाता है कि श्री/श्रीमती/सुश्री/डॉ.
-              <span className="font-bold underline mx-1">{data.participantNameHindi || data.participantName}</span>
-              पद
-              <span className="font-bold underline mx-1">{data.designationHindi || data.designation}</span>
-              ने पूरकीकृत रूप में विद्यालय सार पर आयोजित
-              <span className="font-bold underline mx-1">{data.trainingName}</span>
-              प्रशिक्षण कार्यक्रम / कार्यशाला / गतिविधि (पेपर प्रकाशन / प्रश्न पत्र सेटिंग / प्रकाशन का संपादन
-              <span className="font-bold underline mx-1">{data.dates}</span>
-              को {data.durationHindi || data.duration} घंटे हेतु प्रतिभागी के रूप में ऑफलाइन मोड में भाग लिया।
+              प्रमाणित किया जाता है कि श्री /श्रीमती /सुश्री /डॉ. <span className="font-bold underline mx-1">{data.participantNameHindi || data.participantName}</span> पदनाम <span className="font-bold underline mx-1">{data.designationHindi || data.designation}</span> पीएम श्री / केन्द्रीय विद्यालय <span className="font-bold underline mx-1">{data.organizationNameHindi}</span> क्षेत्रीय कार्यालय <span className="font-bold underline mx-1">{data.regionalOfficeHindi || data.regionalOffice}</span> ने मुखाभिमुख रूप में विद्यालय स्तर पर आयोजित <span className="font-bold underline mx-1">{data.trainingName}</span> प्रशिक्षण कार्यक्रम / कार्यशाला / गतिविधि (पेपर प्रकाशन / प्रश्न पत्र सेटिंग / प्रकाशन का संपादन इत्यादि) में दिनांक <span className="font-bold underline mx-1">{data.dates}</span> को कुल <span className="font-bold underline mx-1">{data.durationHindi || data.duration}</span> घंटे हेतु प्रतिभागी के रूप में प्रतिभागिता की ।
             </p>
 
             <p className="mt-8 text-justify">
-              This is to certify that Mr/Mrs/Ms/Dr
-              <span className="font-bold underline mx-1">{data.participantName}</span>
-              Designation
-              <span className="font-bold underline mx-1">{data.designation}</span>
-              of PM Shri / Kendriya
-              <br />
-              Vidyalaya
-              <span className="font-bold underline mx-1">{data.regionalOffice}</span>
-              has attended vidyalaya level
-              <span className="font-bold underline mx-1">{data.trainingName}</span>
-              Training Programme / Workshop / Activities (Paper Publishing /Question Paper Setting / Editing &amp;
-              <br />
-              Publication etc.) in Offline Mode on date
-              <span className="font-bold underline mx-1">{data.dates}</span>
-              for Total
-              <span className="font-bold underline mx-1">{data.duration}</span>
-              hours as a Participant.
+              This is to certify that Mr/Mrs/Ms/Dr. <span className="font-bold underline mx-1">{data.participantName}</span> Designation <span className="font-bold underline mx-1">{data.designation}</span> of PM Shri / Kendriya Vidyalaya <span className="font-bold underline mx-1">{data.organizationName}</span> Regional Office <span className="font-bold underline mx-1">{data.regionalOffice}</span> has attended vidyalaya level <span className="font-bold underline mx-1">{data.trainingName}</span> Training Programme / Workshop / Activities (Paper Publishing / Question Paper Setting / Editing a Publication etc.) in Offline Mode on date <span className="font-bold underline mx-1">{data.dates}</span> for Total <span className="font-bold underline mx-1">{data.duration}</span> hours as a Participant.
             </p>
           </main>
 
