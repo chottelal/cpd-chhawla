@@ -31,15 +31,13 @@ export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }
             <p className="text-justify devanagari">
               प्रमाणित किया जाता है कि श्री/श्रीमती/सुश्री/डॉ.
               <span className="font-bold underline mx-1">{data.participantNameHindi || data.participantName}</span>
-              पदनाम
+              पद
               <span className="font-bold underline mx-1">{data.designationHindi || data.designation}</span>
-              {data.organizationNameHindi} क्षेत्रीय कार्यालय
-              <span className="font-bold underline mx-1">{data.regionalOfficeHindi || data.regionalOffice}</span>
-              ने विद्यालय स्तर पर आयोजित
+              ने पूरकीकृत रूप में विद्यालय सार पर आयोजित
               <span className="font-bold underline mx-1">{data.trainingName}</span>
-              प्रशिक्षण कार्यक्रम/गतिविधि ({data.workshopDetails}) में दिनांक
+              प्रशिक्षण कार्यक्रम / कार्यशाला / गतिविधि (पेपर प्रकाशन / प्रश्न पत्र सेटिंग / प्रकाशन का संपादन
               <span className="font-bold underline mx-1">{data.dates}</span>
-              को {data.durationHindi || data.duration} घंटे हेतु प्रतिभागी के रूप में भाग लिया।
+              को {data.durationHindi || data.duration} घंटे हेतु प्रतिभागी के रूप में ऑफलाइन मोड में भाग लिया।
             </p>
 
             <p className="mt-8 text-justify">
@@ -47,11 +45,19 @@ export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }
               <span className="font-bold underline mx-1">{data.participantName}</span>
               Designation
               <span className="font-bold underline mx-1">{data.designation}</span>
-              of {data.organizationName}, Regional office
+              of PM Shri / Kendriya
+              <br />
+              Vidyalaya
               <span className="font-bold underline mx-1">{data.regionalOffice}</span>
-              has attended <span className="font-bold underline mx-1">{data.trainingName}</span> Training Programme / Workshop / Activities ({data.workshopDetails}) in Offline Mode on Date(s)
+              has attended vidyalaya level
+              <span className="font-bold underline mx-1">{data.trainingName}</span>
+              Training Programme / Workshop / Activities (Paper Publishing /Question Paper Setting / Editing &amp;
+              <br />
+              Publication etc.) in Offline Mode on date
               <span className="font-bold underline mx-1">{data.dates}</span>
-              for <span className="font-bold underline mx-1">{data.duration}</span> as a Participant.
+              for Total
+              <span className="font-bold underline mx-1">{data.duration}</span>
+              hours as a Participant.
             </p>
           </main>
 
