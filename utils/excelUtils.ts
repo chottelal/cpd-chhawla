@@ -168,9 +168,28 @@ export const readExcelFile = (file: File): Promise<CertificateData[]> => {
         }
 
         const firstCertificate = rowCertificates[0];
+        const firstValue = (field: keyof CertificateData): string => {
+          const value = rowCertificates.find(certificate => String(certificate[field] || '').trim() !== '')?.[field];
+          return typeof value === 'string' ? value : '';
+        };
         const participants = rowCertificates.flatMap(certificate => certificate.participants);
         resolve([{
           ...firstCertificate,
+          organizationName: firstValue('organizationName'),
+          organizationNameHindi: firstValue('organizationNameHindi'),
+          organizationAddress: firstValue('organizationAddress'),
+          organizationLocation: firstValue('organizationLocation'),
+          organizationLocationHindi: firstValue('organizationLocationHindi'),
+          regionalOffice: firstValue('regionalOffice'),
+          regionalOfficeHindi: firstValue('regionalOfficeHindi'),
+          trainingName: firstValue('trainingName'),
+          dates: firstValue('dates'),
+          duration: firstValue('duration'),
+          durationHindi: firstValue('durationHindi'),
+          year: firstValue('year'),
+          principalName: firstValue('principalName'),
+          principalSignature: firstValue('principalSignature'),
+          resourcePerson: firstValue('resourcePerson'),
           participants,
           participantName: participants.map(participant => participant.participantName).join(', '),
           participantNameHindi: participants.map(participant => participant.participantNameHindi).join(', '),
