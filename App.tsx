@@ -6,7 +6,7 @@ import { BulkUpload } from './components/BulkUpload';
 import { SignatureTab } from './components/SignatureTab';
 import type { CertificateData } from './types';
 import { DownloadIcon, BrandIcon } from './components/Icons';
-import { generateSinglePDF, generateBulkBoth } from './utils/pdfUtils';
+import { generateSinglePDF, generateBulkPDF } from './utils/pdfUtils';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'single' | 'bulk' | 'signature'>('single');
@@ -69,8 +69,7 @@ const App: React.FC = () => {
   const handleBulkGenerate = async (certificates: CertificateData[]) => {
     try {
       setIsGenerating(true);
-      // Count per-file progress: 2 files per certificate (PDF + DOCX)
-      setGenerationProgress({ current: 0, total: certificates.length * 2 });
+      setGenerationProgress({ current: 0, total: certificates.length });
       
       const getCertificateElement = () => {
         return activeTab === 'bulk' 
@@ -84,7 +83,7 @@ const App: React.FC = () => {
         });
       };
       
-      await generateBulkBoth(
+      await generateBulkPDF(
         certificates,
         getCertificateElement,
         updateCertificateData,

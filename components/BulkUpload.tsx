@@ -107,14 +107,14 @@ export const BulkUpload: React.FC<BulkUploadProps> = ({ onBulkGenerate, fallback
                   ✅ {certificates.length} certificates loaded successfully
                 </h4>
                 <p className="text-green-700">
-                  Preview certificates below and click "Generate All Certificates" to create PDFs.
+                  Preview the certificate below and download it as a PDF.
                 </p>
               </div>
               <button
                 onClick={handleBulkGenerate}
                 className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold"
               >
-                📄 Generate All Certificates
+                📄 Download PDF Certificate
               </button>
             </div>
           </div>

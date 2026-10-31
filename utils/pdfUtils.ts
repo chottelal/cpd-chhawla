@@ -44,6 +44,41 @@ export const generateSinglePDF = async (data: CertificateData): Promise<Blob> =>
   return pdf.output('blob');
 };
 
+export const generateBulkPDF = async (
+  certificates: CertificateData[],
+  getCertificateElement: () => HTMLElement | null,
+  updateCertificateData: (data: CertificateData) => Promise<void>,
+  onProgress?: (current: number, total: number) => void
+): Promise<void> => {
+  if (certificates.length === 0) {
+    throw new Error('No certificates to generate');
+  }
+
+  const pdf = new jsPDF('portrait', 'mm', 'a4');
+
+  for (let i = 0; i < certificates.length; i++) {
+    await updateCertificateData(certificates[i]);
+    await new Promise(resolve => setTimeout(resolve, 250));
+    const element = getCertificateElement();
+    if (!element) throw new Error('Certificate preview element not found');
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff'
+    });
+    const imgWidth = 210;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    if (i > 0) pdf.addPage();
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+    onProgress?.(i + 1, certificates.length);
+  }
+
+  const safeDate = new Date().toISOString().slice(0, 10);
+  saveAs(pdf.output('blob'), `cpd_certificates_${safeDate}.pdf`);
+};
 export const generateBulkPDFs = async (
   certificates: CertificateData[],
   getCertificateElement: () => HTMLElement | null,
