@@ -123,7 +123,7 @@ export const readExcelFile = (file: File): Promise<CertificateData[]> => {
           return value === undefined || value === null ? '' : String(value).trim();
         };
         
-        const certificates: CertificateData[] = rows
+        const rowCertificates: CertificateData[] = rows
           .filter(row => row.length > 0 && row[0]) // Filter empty rows
           .map((row, index) => {
             try {
@@ -147,7 +147,13 @@ export const readExcelFile = (file: File): Promise<CertificateData[]> => {
                 year: getCell(row, 'year', 16),
                 principalName: getCell(row, 'principalName', 17),
                 principalSignature: getCell(row, 'principalSignature', 18),
-                resourcePerson: getCell(row, 'resourcePerson', 19)
+                resourcePerson: getCell(row, 'resourcePerson', 19),
+                participants: [{
+                  participantName: getCell(row, 'participantName', 0),
+                  participantNameHindi: getCell(row, 'participantNameHindi', 1),
+                  designation: getCell(row, 'designation', 2),
+                  designationHindi: getCell(row, 'designationHindi', 3)
+                }]
               };
             } catch (error) {
               console.error(`Error processing row ${index + 2}:`, error);
@@ -156,7 +162,21 @@ export const readExcelFile = (file: File): Promise<CertificateData[]> => {
           })
           .filter(cert => cert !== null) as CertificateData[];
         
-        resolve(certificates);
+        if (rowCertificates.length === 0) {
+          resolve([]);
+          return;
+        }
+
+        const firstCertificate = rowCertificates[0];
+        const participants = rowCertificates.flatMap(certificate => certificate.participants);
+        resolve([{
+          ...firstCertificate,
+          participants,
+          participantName: participants.map(participant => participant.participantName).join(', '),
+          participantNameHindi: participants.map(participant => participant.participantNameHindi).join(', '),
+          designation: participants.map(participant => participant.designation).join(', '),
+          designationHindi: participants.map(participant => participant.designationHindi).join(', ')
+        }]);
       } catch (error) {
         reject(new Error('Failed to parse Excel file: ' + (error as Error).message));
       }

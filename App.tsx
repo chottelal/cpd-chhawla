@@ -34,6 +34,7 @@ const App: React.FC = () => {
     durationHindi: 'तीन',
     year: '2024',
     resourcePerson: '',
+    participants: [],
     // FIX: Added principalName to initial state.
     principalName: 'PRINCIPAL',
     principalSignature: '/signature.png',
