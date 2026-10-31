@@ -69,10 +69,24 @@ export const generateBulkPDF = async (
       backgroundColor: '#ffffff'
     });
     const imgWidth = 210;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const pageHeightPixels = Math.ceil(canvas.width * 297 / 210);
+    const pageCount = Math.ceil(canvas.height / pageHeightPixels);
 
-    if (i > 0) pdf.addPage();
-    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+    for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+      const startY = pageIndex * pageHeightPixels;
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = Math.min(pageHeightPixels, canvas.height - startY);
+      const pageContext = pageCanvas.getContext('2d');
+      if (!pageContext) throw new Error('Unable to prepare PDF page');
+      pageContext.fillStyle = '#ffffff';
+      pageContext.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+      pageContext.drawImage(canvas, 0, startY, canvas.width, pageCanvas.height, 0, 0, pageCanvas.width, pageCanvas.height);
+
+      if (i > 0 || pageIndex > 0) pdf.addPage();
+      const pageHeightMm = (pageCanvas.height * imgWidth) / pageCanvas.width;
+      pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, pageHeightMm);
+    }
     onProgress?.(i + 1, certificates.length);
   }
 

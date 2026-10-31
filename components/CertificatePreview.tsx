@@ -17,7 +17,7 @@ export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }
   }];
 
   return (
-  <div id={id} className="cpd-certificate" style={id !== 'certificate-preview' ? { width: '794px', height: '1122px' } : undefined}>
+  <div id={id} className="cpd-certificate" style={id !== 'certificate-preview' ? { width: '794px', minHeight: '1122px' } : undefined}>
       <div className="cpd-certificate__paper">
         <header className="cpd-certificate__header">
           <img src="/kvs.png" alt="KVS Logo" className="cpd-certificate__logo" />
