@@ -5,6 +5,19 @@ import { saveAs } from 'file-saver';
 import type { CertificateData } from '../types';
 import { Document, Packer, Paragraph, ImageRun, PageOrientation } from 'docx';
 
+const downloadZip = async (zip: JSZip, fileName: string): Promise<void> => {
+  const zipBytes = await zip.generateAsync({
+    type: 'uint8array',
+    compression: 'DEFLATE',
+    compressionOptions: { level: 6 }
+  });
+  const zipBlob = new Blob([zipBytes], { type: 'application/zip' });
+
+  // Validate the archive before handing it to the browser download.
+  await JSZip.loadAsync(zipBlob);
+  saveAs(zipBlob, fileName);
+};
+
 export const generateSinglePDF = async (data: CertificateData): Promise<Blob> => {
   const element = document.getElementById('certificate-preview');
   if (!element) {
@@ -87,9 +100,8 @@ export const generateBulkPDFs = async (
     }
 
     // Generate and download ZIP file
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
     const timestamp = new Date().toISOString().slice(0, 10);
-    saveAs(zipBlob, `certificates_bulk_${timestamp}.zip`);
+    await downloadZip(zip, `certificates_bulk_${timestamp}.zip`);
     
   } catch (error) {
     throw new Error(`Failed to generate PDFs: ${(error as Error).message}`);
@@ -184,9 +196,8 @@ export const generateBulkBoth = async (
     }
   }
 
-  const zipBlob = await zip.generateAsync({ type: 'blob' });
   const timestamp = new Date().toISOString().slice(0, 10);
-  saveAs(zipBlob, `certificates_bulk_${timestamp}.zip`);
+  await downloadZip(zip, `certificates_bulk_${timestamp}.zip`);
 };
 
 // Alternative approach using React rendering
@@ -244,9 +255,8 @@ export const generateBulkPDFsWithReact = async (
     }
 
     // Generate and download ZIP file
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
     const timestamp = new Date().toISOString().slice(0, 10);
-    saveAs(zipBlob, `certificates_bulk_${timestamp}.zip`);
+    await downloadZip(zip, `certificates_bulk_${timestamp}.zip`);
     
   } catch (error) {
     throw new Error(`Failed to generate PDFs: ${(error as Error).message}`);
