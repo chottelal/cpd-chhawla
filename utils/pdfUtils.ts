@@ -70,13 +70,26 @@ export const generateBulkPDF = async (
     });
     const imgWidth = 210;
     const pageHeightPixels = Math.ceil(canvas.width * 297 / 210);
-    const pageCount = Math.ceil(canvas.height / pageHeightPixels);
+    const elementRect = element.getBoundingClientRect();
+    const renderScale = canvas.width / element.clientWidth;
+    const rowBounds = Array.from(element.querySelectorAll('tbody tr')).map(row => {
+      const rowRect = row.getBoundingClientRect();
+      return {
+        top: (rowRect.top - elementRect.top) * renderScale,
+        bottom: (rowRect.bottom - elementRect.top) * renderScale
+      };
+    });
 
-    for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
-      const startY = pageIndex * pageHeightPixels;
+    let startY = 0;
+    let pageIndex = 0;
+    while (startY < canvas.height) {
+      let endY = Math.min(startY + pageHeightPixels, canvas.height);
+      const splitRow = rowBounds.find(row => row.top > startY && row.top < endY && row.bottom > endY);
+      if (splitRow) endY = Math.floor(splitRow.top);
+
       const pageCanvas = document.createElement('canvas');
       pageCanvas.width = canvas.width;
-      pageCanvas.height = Math.min(pageHeightPixels, canvas.height - startY);
+      pageCanvas.height = endY - startY;
       const pageContext = pageCanvas.getContext('2d');
       if (!pageContext) throw new Error('Unable to prepare PDF page');
       pageContext.fillStyle = '#ffffff';
@@ -86,6 +99,9 @@ export const generateBulkPDF = async (
       if (i > 0 || pageIndex > 0) pdf.addPage();
       const pageHeightMm = (pageCanvas.height * imgWidth) / pageCanvas.width;
       pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, pageHeightMm);
+
+      startY = endY;
+      pageIndex += 1;
     }
     onProgress?.(i + 1, certificates.length);
   }
