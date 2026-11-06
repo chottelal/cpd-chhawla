@@ -42,14 +42,14 @@ export const CertificatePreview: React.FC<{ data: CertificateData; id?: string }
           <p className="devanagari">प्रमाणित किया जाता है कि हमारे विद्यालय <strong>{schoolNameHindi}</strong>, <strong>{data.regionalOfficeHindi}</strong> के निम्नलिखित शिक्षकों ने <strong>“विषय- {data.trainingName}”</strong> पर आयोजित सीपीडी सत्र / कार्यशाला / अल्प अवधि प्रशिक्षण कार्यक्रम में <strong>{data.dates}</strong> को विद्यालय परिसर में ऑफलाइन / आमने-सामने मोड में <strong>{durationHindi}</strong> हेतु प्रतिभागी के रूप में भाग लिया।</p>
           <p>This is to certify that the following teachers of our vidyalaya <strong>{schoolName}</strong>, <strong>{data.regionalOffice}</strong>, have attended a CPD Session/Workshop/short duration training programme on the <strong>“Topic- {data.trainingName}”</strong> held on <strong>{data.dates}</strong> in school premises for <strong>{duration}</strong> as participants in Offline/face-to-face mode.</p>
           <table className="cpd-certificate__table">
-            <thead><tr><th>Name</th><th>Designation</th><th>Name</th><th>Designation</th></tr></thead>
+            <thead><tr><th>S.No.</th><th>Name</th><th>Designation</th><th>S.No.</th><th>Name</th><th>Designation</th></tr></thead>
             <tbody>{Array.from({ length: Math.ceil(participants.length / 2) }, (_, rowIndex) => {
               const left = participants[rowIndex * 2];
               const right = participants[rowIndex * 2 + 1];
               return (
                 <tr key={rowIndex}>
-                  <td>{left?.participantName}</td><td>{left?.designation}</td>
-                  <td>{right?.participantName}</td><td>{right?.designation}</td>
+                  <td>{left ? rowIndex * 2 + 1 : ''}</td><td>{left?.participantName}</td><td>{left?.designation}</td>
+                  <td>{right ? rowIndex * 2 + 2 : ''}</td><td>{right?.participantName}</td><td>{right?.designation}</td>
                 </tr>
               );
             })}</tbody>
